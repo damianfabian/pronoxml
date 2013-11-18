@@ -35,7 +35,7 @@ declare namespace rest = "http://marklogic.com/appservices/rest";
 declare variable $c:ROXY-OPTIONS :=
   <options>
     <layouts>
-      <layout format="html">three-column</layout>
+      <layout format="html">application</layout>
     </layouts>
   </options>;
 

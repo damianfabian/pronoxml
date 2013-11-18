@@ -48,22 +48,22 @@ declare function local:transform-snippet($nodes as node()*)
 };
 
 vh:add-value("sidebar",
-  <div class="sidebar" arcsize="5 5 0 0" xmlns="http://www.w3.org/1999/xhtml">
+  <section class="sidebar" arcsize="5 5 0 0" xmlns="http://www.w3.org/1999/xhtml">
   {
     facet:facets($response/search:facet, $q, $c:SEARCH-OPTIONS, $c:LABELS)
   }
-  </div>
+  </section>
 
 ),
 
 let $page := ($response/@start - 1) div $c:DEFAULT-PAGE-LENGTH + 1
 let $total-pages := fn:ceiling($response/@total div $c:DEFAULT-PAGE-LENGTH)
 return
-  <div id="search">
+  <section id="search">
   {
     if ($response/@total gt 0) then
     (
-      <div class="pagination">
+      <section class="pagination">
         <span class="status">Showing {fn:string($response/@start)} to {fn:string(fn:min(($response/@start + $response/@page-length - 1, $response/@total)))} of <span id="total-results">{fn:string($response/@total)}</span> Results </span>
         <span class="nav">
           <span id="first" class="button">
@@ -99,24 +99,24 @@ return
           }
           </span>
         </span>
-      </div>,
-      <div class="results">
+      </section>,
+      <section class="results">
       {
         for $result at $i in $response/search:result
         let $doc := fn:doc($result/@uri)/*
         return
-          <div class="result">
+          <section class="result">
           {
             local:transform-snippet($result/search:snippet)
           }
-          </div>
+          </section>
       }
-      </div>
+      </section>
     )
     else
-      <div class="results">
+      <section class="results">
         <h2>No Results Found</h2>
-      </div>
+      </section>
   }
 
-  </div>
+  </section>

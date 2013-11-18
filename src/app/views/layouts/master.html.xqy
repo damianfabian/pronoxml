@@ -91,22 +91,7 @@ declare variable $user as xs:string? := vh:get('user');
     </div>
     <!-- /.navbar-wrapper -->
     <div id="top">&nbsp;</div>
-    <!-- ******************** HeaderWrap ********************-->
-    <div id="headerwrap">
-      <header class="clearfix">
-        <h1><span>{$title}!</span> Apostamos en lo que tu quieras.</h1>
-        <div class="container">
-          <div class="row">
-            <div class="span12">
-              <h2>Busca torneos para apostar </h2>
-              <input type="text" name="your-email" placeholder="Ejemplo: UEFA Champions" class="cform-text" size="40" title="Search" /> &nbsp;
-              <input type="submit" value="Buscar" class="cform-submit" />
-            </div>
-          </div>
-          
-        </div>
-      </header>
-    </div>
+   
     {
         $view
     }

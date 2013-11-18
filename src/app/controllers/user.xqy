@@ -46,5 +46,5 @@ declare function c:login() as item()*
     ch:add-value("page", $page)
   ),
   ch:use-view((), "xml"),
-  ch:use-layout((), "xml")
+  ch:use-layout(<layout format="html">master</layout>, "html")
 };
