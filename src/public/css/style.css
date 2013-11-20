@@ -55,7 +55,7 @@ color:#333;
 }
 /*---------- FORMS ----------*/
 
-input[type=text], input[type=submit], textarea {
+input[type=text], input[type=submit], textarea, input[type=password] {
 	width: 100%;
 	padding: 0.5em;
 	font-size: 1em;
@@ -603,14 +603,14 @@ section#team .align, section#contact .align {
 	position: relative;
 	z-index: 999;
 }
-#theme-form input[type=text], .cform-form textarea {
+#theme-form input[type=text], .cform-form textarea, input[type=password] {
 	background: rgba(227, 231, 228, 1);
 	font-family: 'Open Sans', sans serif;
 	border: 0;
 	text-align: left;
 	vertical-align: middle;
 }
-#theme-form input[type=text]:focus, .cform-form textarea:focus {
+#theme-form input[type=text]:focus, .cform-form textarea:focus, input[type=password]:focus {
 	background: rgba(101, 106, 100, 1);
 	color: #eff1ef;
 	box-shadow: none;
@@ -620,7 +620,7 @@ section#team .align, section#contact .align {
 	-moz-transition: background 0.25 ease-in;
 	-webkit-transition: background 0.25 ease-in;
 }
-#theme-form input[type=text] {
+#theme-form input[type=text], input[type=password] {
 	height: 3.25em;
 }
 #theme-form input[type=checkbox] {
@@ -924,7 +924,7 @@ footer p {
  width: 135px;
 }
  .container {
-1px solid yellow;
+border: 1px solid yellow;
 }
  #team .team-thumb {
  margin-right: auto;
@@ -1130,4 +1130,88 @@ text-decoration:none;
 
 .no-margin{
     margin:0px !important;
+}
+
+.loginbar{display:none;}
+.login-form
+{
+    display:inline;
+}
+
+.login-form input[type=text], .login-form input[type=password]
+{
+    float:left;
+    width:200px;
+    height:30px !important;
+    margin-right:5px;
+}
+
+.login-form input[type=submit]
+{
+    float:left;
+    width:100px;
+    height:30px;
+    padding:1px;
+    font-family: 'Patua One',cursive;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.05em;
+    text-transform: none;
+    background: none repeat scroll 0% 0% rgb(240, 191, 0) !important;
+    border-radius: 3px;
+    border: 0px none;
+}
+
+.lblerror
+{
+    font-family: 'Patua One',cursive;
+    color: rgb(255, 0, 0);
+    letter-spacing: 0.05em;
+    text-transform: none;
+    display:block;
+    clear:left;
+}
+
+#register-form label.error{
+    color:rgb(255,0,0);
+    width:100%;
+    margin-bottom:10px;
+}
+
+#register-form input.error
+{
+    border:1px solid rgb(255,0,0) !important;    
+}
+
+#register-form div.error
+{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+#register-form div.error span
+{
+    color:red;
+}
+
+#login .error{
+    color:rgb(255,0,0);
+    float:left;
+    margin:5px;
+}
+
+.button 
+{
+    float:left;
+    width:100px !important;
+    height:30px;
+    padding:1px;
+    font-family: 'Patua One',cursive;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.05em;
+    text-transform: none;
+    background: none repeat scroll 0% 0% rgb(240, 191, 0) !important;
+    border-radius: 3px;
+    border: 0px none;
+    margin-left:5px;
+    
 }

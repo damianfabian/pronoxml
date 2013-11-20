@@ -20,6 +20,12 @@ module namespace c = "http://marklogic.com/roxy/config";
 import module namespace def = "http://marklogic.com/roxy/defaults" at "/roxy/config/defaults.xqy";
 
 declare namespace rest = "http://marklogic.com/appservices/rest";
+declare variable $c:RESOURCE-DB := "@ml.resource-db";
+
+declare variable $c:SESSION  := map:map();
+
+(: Allows unauthenticated requests if set to true :)
+declare variable $c:SESSION-AUTHENTICATE := fn:true();
 
 (:
  : ***********************************************
@@ -35,7 +41,7 @@ declare namespace rest = "http://marklogic.com/appservices/rest";
 declare variable $c:ROXY-OPTIONS :=
   <options>
     <layouts>
-      <layout format="html">application</layout>
+      <layout format="html">master</layout>
     </layouts>
   </options>;
 
@@ -52,7 +58,14 @@ declare variable $c:ROXY-OPTIONS :=
  :)
 declare variable $c:ROXY-ROUTES :=
   <routes xmlns="http://marklogic.com/appservices/rest">
-    <request uri="^/my/awesome/route" />
+    <request uri="^/(login|logout)/?$" endpoint="/app/restful-router.xqy">
+      <uri-param name="controller" default="general">$1</uri-param>
+      <uri-param name="func" default="main"></uri-param>
+      <uri-param name="format" default="json"></uri-param>
+      <http method="GET"/>
+      <http method="HEAD"/>
+      <http method="POST"/>
+    </request>
     {
       $def:ROXY-ROUTES/rest:request
     }

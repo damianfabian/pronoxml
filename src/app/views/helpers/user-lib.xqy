@@ -19,17 +19,33 @@ module namespace uv = "http://www.marklogic.com/roxy/user-view";
 
 import module namespace form = "http://marklogic.com/roxy/form-lib" at "/app/views/helpers/form-lib.xqy";
 
-declare default element namespace "http://www.w3.org/1999/xhtml";
+(:declare default element namespace "http://www.w3.org/1999/xhtml";:)
 
 declare option xdmp:mapping "false";
 
-declare function uv:build-user($username, $profile-link, $login-link, $register-link, $logout-link)
+declare function uv:build-user($username, $message, $login-link, $register-link, $logout-link)
 {
-  if ($username) then
-    uv:welcome($username, $profile-link, $logout-link)
-  else
-    uv:build-login($login-link, $register-link)
-};
+                
+   let $loggedInUser := xdmp:get-session-field("logged-in-user")
+   return
+   if ($loggedInUser ne "") then
+   (    
+        <li><a title="portfolio" href="#portfolio">Portfolio</a></li>,
+        <li><a title="services" href="#services">Services</a></li>,
+        <li><a title="news" href="#news">News</a></li>,
+        <li><a title="team" href="#team">Team</a></li>,
+        <li><a title="contact" href="#contact">Contact</a></li>,
+        <li><a title="User" href="#">{$username}</a></li>,
+        <li><a href="{$logout-link}" class="logout">Logout</a></li>
+       
+    )    
+    else
+    (    
+        <li class="loginbar">{uv:build-login($login-link,$register-link, $message)}</li>,
+        <li class="loginlinks"><a href="#" class="loginlink">Login</a></li>,
+        <li class="loginlinks"><a href="{$register-link}" class="registerlink">Register</a></li>
+     )
+ };
 
 declare function uv:welcome($username, $profile-link, $logout-link)
 {
@@ -39,16 +55,15 @@ declare function uv:welcome($username, $profile-link, $logout-link)
   </div>
 };
 
-declare function uv:build-login($login-link, $register-link)
+declare function uv:build-login($login-link, $register-link, $message)
 {
-  <div class="user">
-    <form action="{$login-link}" method="POST">
-      {
-        form:text-input("Username:", "username", "username"),
-        form:password-input("Password:", "password", "password")
-      }
+  <div class="login-form">
+    <span class="lblerror">{fn:normalize-space($message)}</span>
+    <form action="{$login-link}" method="POST" id="login">
+      <input type="text" class="pull-left text required"  name="username" placeholder="username" />
+      <input type="password" class="pull-left text required" name="password" placeholder="*******" />
       <input type="submit" value="Login"/>
+      <input type="button" class="button" value="Cancel" id="login-cancel" />
     </form>
-    <a href="{$register-link}">register</a>
   </div>
 };

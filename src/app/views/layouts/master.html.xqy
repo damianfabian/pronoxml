@@ -17,10 +17,16 @@ xquery version "1.0-ml";
 
 import module namespace vh = "http://marklogic.com/roxy/view-helper" at "/roxy/lib/view-helper.xqy";
 
+import module namespace uv = "http://www.marklogic.com/roxy/user-view" at "/app/views/helpers/user-lib.xqy";
+
 declare variable $view as item()* := vh:get("view");
 declare variable $title as xs:string? := (vh:get('title'), "Pronoxml")[1];
 declare variable $appName as xs:string? := (vh:get('appName'), "Pronoxml")[1];
-declare variable $user as xs:string? := vh:get('user');
+declare variable $javascripts as item()* := (vh:get('javascripts'), ())[1];
+
+declare variable $username as xs:string? := vh:get("username");
+declare variable $message  as xs:string? := vh:get("message");
+declare variable $loggedin as xs:string? := vh:get("loggedin");
 
 
 '<!DOCTYPE HTML>',
@@ -64,23 +70,10 @@ declare variable $user as xs:string? := vh:get('user');
             <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
             <nav class="pull-right nav-collapse collapse">
               <ul id="menu-main" class="nav">
-                <li><a title="portfolio" href="#portfolio">Portfolio</a></li>
-                <li><a title="services" href="#services">Services</a></li>
-                <li><a title="news" href="#news">News</a></li>
-                <li><a title="team" href="#team">Team</a></li>
-                <li><a title="contact" href="#contact">Contact</a></li>
-                {
-                    if($user) then
-                        <li><a title="User" href="#">Fabian Jaramillo</a></li>
-                    else ()
-                }
-              </ul>
-              {
-                if($user) then
-                    <a href="/user/logout" class="logout">Logout</a>
-                else
-                    <a href="/user/login" class="login">Login</a>
+               {
+                uv:build-user($username, $message, "/?login=1", "/user/register", "/user/logout.html")
               }
+              </ul>
             </nav>
           </div>
           <!-- /.container -->
@@ -113,6 +106,7 @@ declare variable $user as xs:string? := vh:get('user');
    
     <!-- JQuery -->
     <script type="text/javascript" src="/public/js/jquery.js">&nbsp;</script>
+    <script type="text/javascript" src="/public/js/jquery.validate.js">&nbsp;</script>
     <!-- Load ScrollTo -->
     <script type="text/javascript" src="/public/js/jquery.scrollTo-1.4.2-min.js">&nbsp;</script>
     <!-- Load LocalScroll -->
@@ -120,5 +114,9 @@ declare variable $user as xs:string? := vh:get('user');
     <script type="text/javascript" src="/public/js/bootstrap.js">&nbsp;</script>
     <script type="text/javascript" src="/public/js/jquery.prettyPhoto.js">&nbsp;</script>
     <script type="text/javascript" src="/public/js/site.js">&nbsp;</script>
+    {
+        for $x in $javascripts/script
+        return $x
+    }
     </body>
 </html>

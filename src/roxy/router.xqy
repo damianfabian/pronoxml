@@ -25,6 +25,7 @@ import module namespace rh = "http://marklogic.com/roxy/routing-helper" at "/rox
 import module namespace u = "http://marklogic.com/roxy/util" at "/roxy/lib/util.xqy";
 
 declare option xdmp:mapping "false";
+declare option xdmp:update "true";
 
 declare variable $controller as xs:QName := req:get("controller", "type=xs:QName");
 declare variable $controller-path as xs:string := fn:concat("/app/controllers/", $controller, ".xqy");

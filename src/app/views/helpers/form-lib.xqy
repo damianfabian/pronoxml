@@ -22,9 +22,9 @@ declare default element namespace "http://www.w3.org/1999/xhtml";
 declare function form:text-input(
   $label as xs:string,
   $name as xs:string,
-  $class as xs:string)
+  $class as xs:string*)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label>{$label}</label>
     <input type="text" name="{$name}" value=""/>
   </div>
@@ -33,10 +33,10 @@ declare function form:text-input(
 declare function form:text-input(
   $label as xs:string,
   $name as xs:string,
-  $class as xs:string,
+  $class as xs:string*,
   $value as xs:string)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label>{$label}</label>
     <input type="text" name="{$name}" value="{$value}"/>
   </div>
@@ -45,9 +45,9 @@ declare function form:text-input(
 declare function form:password-input(
   $label as xs:string,
   $name as xs:string,
-  $class as xs:string)
+  $class as xs:string*)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label>{$label}</label>
     <input type="password" name="{$name}" value=""/>
   </div>
@@ -56,9 +56,9 @@ declare function form:password-input(
 declare function form:text-area(
   $label as xs:string,
   $name as xs:string,
-  $class as xs:string)
+  $class as xs:string*)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label>{$label}</label>
     <textarea name="{$name}"/>
   </div>
@@ -67,10 +67,10 @@ declare function form:text-area(
 declare function form:text-area(
   $label as xs:string,
   $name as xs:string,
-  $class as xs:string,
+  $class as xs:string*,
   $value as xs:string)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label>{$label}</label>
     <textarea name="{$name}">{$value}</textarea>
   </div>
@@ -80,10 +80,10 @@ declare function form:checkbox(
   $label as xs:string,
   $name as xs:string,
   $checked as xs:boolean,
-  $class as xs:string,
+  $class as xs:string*,
   $id as xs:string)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label for="{$id}">{$label}</label>
     {
       element input {
@@ -100,10 +100,10 @@ declare function form:radio(
   $label as xs:string,
   $name as xs:string,
   $selected as xs:boolean,
-  $class as xs:string,
+  $class as xs:string*,
   $id as xs:string)
 {
-  <div class="{$class}">
+  <div class="{fn:string-join($class," ")}">
     <label for="{$id}">{$label}</label>
     {
       element input {
