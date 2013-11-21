@@ -42,7 +42,7 @@ declare variable $ROXY-OPTIONS :=
 
 		<!-- a mapping of default layouts to view formats -->
 		<layouts>
-			<layout format="html">two-column</layout>
+			<layout format="html">master</layout>
 		</layouts>
 	</options>;
 
@@ -61,14 +61,14 @@ declare variable $ROXY-ROUTES :=
 		)[1]
 	return
 		<routes xmlns="http://marklogic.com/appservices/rest">
-	    <request uri="^/test/(js|img|css)/(.*)" />
+	    <request uri="^/test/(js|img|css|font)/(.*)" />
 	    <request uri="^/test/(.*)" endpoint="/test/default.xqy">
 	      <uri-param name="func" default="{$default-function}">$1</uri-param>
 	    </request>
 	    <request uri="^/test$" redirect="/test/" />
 	    <request uri="^/(css|js|images)/(.*)" endpoint="/public/$1/$2"/>
 	    <request uri="^/favicon.ico$" endpoint="/public/favicon.ico"/>
-      <request uri="^/v1/.+$"/>
+        <request uri="^/v1/.+$"/>
 	    <request uri="^/([\w\d_\-]*)/?([\w\d_\-]*)\.?(\w*)/?$" endpoint="/roxy/query-router.xqy">
 	      <uri-param name="controller" default="{$default-controller}">$1</uri-param>
 	      <uri-param name="func" default="{$default-function}">$2</uri-param>
@@ -85,7 +85,7 @@ declare variable $ROXY-ROUTES :=
 	      <http method="DELETE"/>
 	    </request>
 	    <request uri="^.+$"/>
-		</routes>;
+	</routes>;
 
 (:
  : ***********************************************

@@ -56,19 +56,37 @@ declare variable $c:ROXY-OPTIONS :=
  :
  : ***********************************************
  :)
-declare variable $c:ROXY-ROUTES :=
-  <routes xmlns="http://marklogic.com/appservices/rest">
-    <request uri="^/(login|logout)/?$" endpoint="/app/restful-router.xqy">
-      <uri-param name="controller" default="general">$1</uri-param>
-      <uri-param name="func" default="main"></uri-param>
-      <uri-param name="format" default="json"></uri-param>
-      <http method="GET"/>
-      <http method="HEAD"/>
-      <http method="POST"/>
-    </request>
+    declare variable $default-controller := "appbuilder";
+    declare variable $default-function := "main";
+    
+    declare variable $c:ROXY-ROUTES :=
+    <routes xmlns="http://marklogic.com/appservices/rest">
+    <request uri="^/(css|js|img|font)/(.*)" endpoint="/public/$1/$2"/>
     {
-      $def:ROXY-ROUTES/rest:request
+        let $user := xdmp:get-session-field("logged-in-user")(:xdmp:get-current-user():)
+        let $log := xdmp:log($user)
+        return
+          if ($user ne '') then
+            $def:ROXY-ROUTES/rest:request
+          else
+              <request uri="^/favicon.ico$" endpoint="/public/favicon.ico"/>,
+              <request uri="^/user/(login|logout|register)" endpoint="/roxy/query-router.xqy">
+                  <uri-param name="controller" default="{$default-controller}">user</uri-param>
+                  <uri-param name="func" default="{$default-function}">$1</uri-param>
+                  <uri-param name="format">html</uri-param>
+                  <http method="GET"/>
+                  <http method="HEAD"/>
+                  <http method="POST"/>
+              </request>,
+              <request uri="^/.*$" endpoint="/roxy/query-router.xqy">
+                  <uri-param name="controller" default="{$default-controller}">appbuilder</uri-param>
+                  <uri-param name="func" default="{$default-function}">main</uri-param>
+                  <uri-param name="format">html</uri-param>
+                  <http method="GET"/>
+                  <http method="HEAD"/>
+              </request>
     }
+    
   </routes>;
 
 (:

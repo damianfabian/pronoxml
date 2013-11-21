@@ -38,10 +38,10 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
     <!-- Styles -->
     <!-- Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico"/>
-    <link href="/public/css/bootstrap.css" rel="stylesheet"/>
-    <link href="/public/css/style.css" rel="stylesheet"/>
-    <link rel='stylesheet' id='prettyphoto-css'  href="/public/css/prettyPhoto.css" type='text/css' media='all'/>
-    <link href="/public/css/fontello.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link rel='stylesheet' id='prettyphoto-css'  href="/css/prettyPhoto.css" type='text/css' media='all'/>
+    <link href="/css/fontello.css" type="text/css" rel="stylesheet"/>
     <!--[if lt IE 7]>
             <link href="/css/fontello-ie7.css" type="text/css" rel="stylesheet"/>  
         <![endif]-->
@@ -49,7 +49,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
     <link href='http://fonts.googleapis.com/css?family=Quattrocento:400,700' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-    <link href="/public/css/bootstrap-responsive.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet"/>
     
     </head>
     <body>
@@ -69,7 +69,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
             <nav class="pull-right nav-collapse collapse">
               <ul id="menu-main" class="nav">
               {
-                uv:build-user($username, $message, "?login=1", "/user/register", "/user/logout.html")
+                uv:build-user($username, $message, "/user/login", "/user/register", "/user/logout")
               }
               </ul>
             </nav>
@@ -98,9 +98,52 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
         </div>
       </header>
     </div>
-    {
-        $view
-    }
+    <hr/>
+    <!--******************** News Section ********************-->
+    <section id="news" class="single-page scrollblock">
+      <div class="container">
+        <div class="align"><i class="icon-pencil-circled">&nbsp;</i></div>
+        <h1>Play, bet and have fun!</h1>
+        <!-- Three columns -->
+        <div class="row">
+          <article class="span4 post"> <img class="img-news" src="/img/tournament1.jpg" alt=""/>
+            <div class="inside">
+              <p class="post-date"><i class="icon-calendar">&nbsp;</i> March 17, 2014</p>
+              <h2>A video game tournament</h2>
+              <div class="entry-content">
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. &hellip;</p>
+                <a href="#" class="more-link">read more</a> </div>
+            </div>
+            <!-- /.inside -->
+          </article> 
+          <!-- /.span4 -->
+          <article class="span4 post"> <img class="img-news" src="/img/tournament2.jpg" alt="" />
+            <div class="inside">
+              <p class="post-date">February 28, 2014</p>
+              <h2>A soccer game tournament</h2>
+              <div class="entry-content">
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. &hellip;</p>
+                <a href="#" class="more-link">read more</a> </div>
+            </div>
+            <!-- /.inside -->
+          </article>
+          <!-- /.span4 -->
+          <article class="span4 post"> <img class="img-news" src="/img/tournament3.jpg" alt="" />
+            <div class="inside">
+              <p class="post-date">February 06, 2014</p>
+              <h2>A Basketball game tournament</h2>
+              <div class="entry-content">
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. &hellip;</p>
+                <a href="#" class="more-link">read more</a> </div>
+            </div>
+            <!-- /.inside -->
+          </article>
+          <!-- /.span4 -->
+        </div>
+        <!-- /.row -->
+        <a href="#" class="btn btn-large">Go to see more tournaments</a> </div>
+      <!-- /.container -->
+    </section>
     <div class="footer-wrapper">
       <div class="container">
         <footer>
@@ -118,15 +161,15 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
         <![endif]-->
    
     <!-- JQuery -->
-    <script type="text/javascript" src="/public/js/jquery.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/jquery.validate.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.validate.js">&nbsp;</script>
     <!-- Load ScrollTo -->
-    <script type="text/javascript" src="/public/js/jquery.scrollTo-1.4.2-min.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.scrollTo-1.4.2-min.js">&nbsp;</script>
     <!-- Load LocalScroll -->
-    <script type="text/javascript" src="/public/js/jquery.localscroll-1.2.7-min.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/bootstrap.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/jquery.prettyPhoto.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/site.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.localscroll-1.2.7-min.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/bootstrap.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.prettyPhoto.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/site.js">&nbsp;</script>
     {
         $javascripts
     }

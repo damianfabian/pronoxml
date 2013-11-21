@@ -111,7 +111,7 @@ declare function c:register() as item()*
                         usr:save($user)
                       
     let $scripts := <scripts>
-                        <script type="text/javascript" src="/public/js/require.js">&nbsp;</script>
+                        <script type="text/javascript" src="/js/register.js">&nbsp;</script>
                     </scripts>
                     
     let $view :=  if(fn:contains($message,"Successfully")) then
@@ -127,10 +127,11 @@ declare function c:register() as item()*
                         xdmp:redirect-response('/')
                     )
                   else
-                  (  
-                    ch:use-view(<view format="html">user/register</view>, "html"),
-                    ch:use-layout(<layout format="html">master</layout>),
-                    ch:add-value("message", $message)
+                  ( 
+                    ch:add-value("message", $message),
+                    ch:use-view((), "xml"),
+                    ch:use-layout(<layout format="html">master</layout>)
+                    
                   )
     return
     (
@@ -154,12 +155,31 @@ declare function c:logout() as item()*
 declare function c:login() as item()*
 {
     let $q as xs:string := req:get("q", "", "type=xs:string")
-    let $page := req:get("page", 1, "type=xs:int")
+    let $username := (xdmp:get-session-field("username"),req:get("username", "", "type=xs:string"))[1]
+    let $password := req:get("password", "", "type=xs:string")
+    let $message := if (($username eq "") or ($password eq "")) then
+                        "Invalid: please provide username and password."
+                    else
+                        auth:weblogin($username,$password)/message/text()
+    let $scripts := <scripts>
+                        <script type="text/javascript" src="/js/login.js">&nbsp;</script>
+                        <script type="text/javascript">$(document).ready(function(){{$("#login-form").validate();}});</script>
+                    </scripts>                   
+
     return
     (
-      ch:add-value("q", $q),
-      ch:add-value("page", $page)
-    ),
-    ch:use-view((), "xml"),
-    ch:use-layout((), "html")
+        ch:add-value("message", $message),
+        ch:add-value("username", $username),
+        ch:add-value("javascripts", $scripts),
+        if(fn:contains($message, "successful")) then
+        (
+            xdmp:redirect-response('/')
+        )
+        else
+        (
+            ch:use-view(<view format="html">user/login</view>, "html"),
+            ch:use-layout(<layout format="html">master</layout>)
+        )
+        
+    )
 };

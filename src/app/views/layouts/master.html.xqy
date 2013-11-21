@@ -40,10 +40,10 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
     <!-- Styles -->
     <!-- Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico"/>
-    <link href="/public/css/bootstrap.css" rel="stylesheet"/>
-    <link href="/public/css/style.css" rel="stylesheet"/>
-    <link rel='stylesheet' id='prettyphoto-css'  href="/public/css/prettyPhoto.css" type='text/css' media='all'/>
-    <link href="/public/css/fontello.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link rel='stylesheet' id='prettyphoto-css'  href="/css/prettyPhoto.css" type='text/css' media='all'/>
+    <link href="/css/fontello.css" type="text/css" rel="stylesheet"/>
     <!--[if lt IE 7]>
             <link href="/css/fontello-ie7.css" type="text/css" rel="stylesheet"/>  
         <![endif]-->
@@ -51,7 +51,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
     <link href='http://fonts.googleapis.com/css?family=Quattrocento:400,700' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-    <link href="/public/css/bootstrap-responsive.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet"/>
     
     </head>
     <body>
@@ -71,7 +71,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
             <nav class="pull-right nav-collapse collapse">
               <ul id="menu-main" class="nav">
                {
-                uv:build-user($username, $message, "/?login=1", "/user/register", "/user/logout.html")
+                uv:build-user($username, $message, "/user/login", "/user/register", "/user/logout.html")
               }
               </ul>
             </nav>
@@ -105,15 +105,15 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
         <![endif]-->
    
     <!-- JQuery -->
-    <script type="text/javascript" src="/public/js/jquery.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/jquery.validate.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.validate.js">&nbsp;</script>
     <!-- Load ScrollTo -->
-    <script type="text/javascript" src="/public/js/jquery.scrollTo-1.4.2-min.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.scrollTo-1.4.2-min.js">&nbsp;</script>
     <!-- Load LocalScroll -->
-    <script type="text/javascript" src="/public/js/jquery.localscroll-1.2.7-min.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/bootstrap.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/jquery.prettyPhoto.js">&nbsp;</script>
-    <script type="text/javascript" src="/public/js/site.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.localscroll-1.2.7-min.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/bootstrap.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery.prettyPhoto.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/site.js">&nbsp;</script>
     {
         for $x in $javascripts/script
         return $x

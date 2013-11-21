@@ -38,7 +38,7 @@ declare variable $message         := vh:get("message");
             </div>
             <div class="row">
               <div class="span6 offset3">
-                <input type="password" name="password1" id="password1" placeholder="Password" class="cform-text required password" size="40" />
+                <input type="password" name="password1" id="password1" placeholder="Password" class="cform-text required password1" size="40" />
               </div>
             </div>
             <div class="row">
