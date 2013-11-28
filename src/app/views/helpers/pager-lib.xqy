@@ -25,7 +25,59 @@ module namespace pager = "http://marklogic.com/roxy/pager-lib";
 
 declare namespace search = "http://marklogic.com/appservices/search";
 
-declare default element namespace "http://www.w3.org/1999/xhtml";
+import module namespace c    = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
+
+declare function pager:getPaginate($response, $q, $page) as item()*
+{
+    let $total-pages := fn:ceiling($response/@total div $c:DEFAULT-PAGE-LENGTH)
+    
+    return
+    if ($response/@total gt 0) then
+    (
+        <div class="pagination">
+          
+          <span class="nav">
+            <span id="first" class="paginateLink">
+            {
+              if ($page gt 1) then
+                <a class="pagelink clickable" page="1">&laquo;</a>
+              else
+                "&laquo;"
+            }
+            </span>
+            <span id="previous" class="paginateLink">
+            {
+              if ($page gt 1) then
+                <a class="pagelink clickable" page="{$page - 1}">&lt;</a>
+              else
+                "&lt;"
+            }
+            </span>
+            <span class="status">Showing {fn:string($response/@start)} to {fn:string(fn:min(($response/@start + $response/@page-length - 1, $response/@total)))} of <span id="total-results">{fn:string($response/@total)}</span> Results </span>
+            <span id="next" class="paginateLink">
+            {
+              if ($page lt $total-pages) then
+                <a class="pagelink clickable" page="{$page + 1}">&gt;</a>
+              else
+                "&gt;"
+            }
+            </span>
+            <span id="last" class="paginateLink">
+            {
+              if ($page lt $total-pages) then
+                <a class="pagelink clickable" page="{$total-pages}">&raquo;</a>
+              else
+                "&raquo;"
+            }
+            </span>
+          </span>
+        </div>
+    )
+    else ()
+        
+   
+};
+
 
 declare function pager:paginate(
   $response as element(search:response))

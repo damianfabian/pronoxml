@@ -28,14 +28,12 @@ declare function uv:build-user($username, $message, $login-link, $register-link,
                 
    let $loggedInUser := xdmp:get-session-field("logged-in-user")
    return
-   if ($loggedInUser ne "") then
+   if (fn:data($loggedInUser)) then
    (    
-        <li><a title="portfolio" href="#portfolio">Portfolio</a></li>,
-        <li><a title="services" href="#services">Services</a></li>,
-        <li><a title="news" href="#news">News</a></li>,
-        <li><a title="team" href="#team">Team</a></li>,
-        <li><a title="contact" href="#contact">Contact</a></li>,
-        <li><a title="User" href="#">{$username}</a></li>,
+        <li><a title="Tournaments" href="/tournaments">Tournaments</a></li>,
+        <li><a title="Explore" href="/explore">Explore</a></li>,
+        <li><a title="Contact" href="/contact">Contact</a></li>,
+        <li><a title="User" href="/user/detail/{$username}">{$username}</a></li>,
         <li><a href="{$logout-link}" class="logout">Logout</a></li>
        
     )    

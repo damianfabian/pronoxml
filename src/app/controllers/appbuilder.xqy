@@ -22,9 +22,6 @@ import module namespace ch = "http://marklogic.com/roxy/controller-helper" at "/
 
 (: The request library provides awesome helper methods to abstract get-request-field :)
 import module namespace req = "http://marklogic.com/roxy/request" at "/roxy/lib/request.xqy";
-import module namespace s = "http://marklogic.com/roxy/models/search" at "/app/models/search-lib.xqy";
-import module namespace cfg  = "http://marklogic.com/roxy/config"                at "/app/config/config.xqy";
-import module namespace auth = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
 declare option xdmp:mapping "false";
 
 (:
@@ -43,9 +40,6 @@ declare function c:main() as item()*
   let $message := ""
   return
   (
-    ch:add-value("response", s:search($q, $page)),
-    ch:add-value("q", $q),
-    ch:add-value("page", $page),
     ch:add-value("username", $username),
     ch:add-value("message", $message),
     ch:use-view((), "xml"),

@@ -281,7 +281,7 @@
         <forest-id name="@ml.modules-db"/>
       </forests>
       <stemmed-searches>off</stemmed-searches>
-      <word-searches>false</word-searches>
+      <word-searches>true</word-searches>
       <word-positions>false</word-positions>
       <fast-phrase-searches>false</fast-phrase-searches>
       <fast-reverse-searches>false</fast-reverse-searches>
@@ -364,7 +364,19 @@
           <privilege-name>users-uri</privilege-name>
         </privilege>
         <privilege>
+          <privilege-name>pronoxml-uri</privilege-name>
+        </privilege>
+        <privilege>
+          <privilege-name>binary-uri</privilege-name>
+        </privilege>
+        <privilege>
+          <privilege-name>temp-uri</privilege-name>
+        </privilege>
+        <privilege>
           <privilege-name>xdmp:set-session-field</privilege-name>
+        </privilege>
+        <privilege>
+          <privilege-name>any-uri</privilege-name>
         </privilege>
       </privileges>
     </role>
@@ -410,6 +422,20 @@
       <action>/users/</action>
       <kind>uri</kind>
     </privilege>
-
+    <privilege>
+      <privilege-name>pronoxml-uri</privilege-name>
+      <action>/pronoxml/</action>
+      <kind>uri</kind>
+    </privilege>
+    <privilege>
+      <privilege-name>binary-uri</privilege-name>
+      <action>/binary/</action>
+      <kind>uri</kind>
+    </privilege>
+    <privilege>
+      <privilege-name>temp-uri</privilege-name>
+      <action>/temp/</action>
+      <kind>uri</kind>
+    </privilege>
   </privileges>
 </configuration>

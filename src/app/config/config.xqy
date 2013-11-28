@@ -20,9 +20,17 @@ module namespace c = "http://marklogic.com/roxy/config";
 import module namespace def = "http://marklogic.com/roxy/defaults" at "/roxy/config/defaults.xqy";
 
 declare namespace rest = "http://marklogic.com/appservices/rest";
+declare namespace search = "http://marklogic.com/appservices/search";
+
 declare variable $c:RESOURCE-DB := "@ml.resource-db";
 
 declare variable $c:SESSION  := map:map();
+
+declare variable $c:ADMIN   := "admin@pronoxml.com";
+
+declare variable $c:DOCUMENTS_PATH   := "/pronoxml";
+
+declare variable $c:TOURNAMENT_COLLECTION   := "col:tournament";
 
 (: Allows unauthenticated requests if set to true :)
 declare variable $c:SESSION-AUTHENTICATE := fn:true();
@@ -64,10 +72,19 @@ declare variable $c:ROXY-OPTIONS :=
     <request uri="^/(css|js|img|font)/(.*)" endpoint="/public/$1/$2"/>
     {
         let $user := xdmp:get-session-field("logged-in-user")(:xdmp:get-current-user():)
-        let $log := xdmp:log($user)
         return
           if ($user ne '') then
+          (
+              <request uri="^/user/detail/(.*)" endpoint="/roxy/query-router.xqy">
+                  <uri-param name="controller" default="{$default-controller}">user</uri-param>
+                  <uri-param name="func" default="{$default-function}">detail</uri-param>
+                  <uri-param name="format">$1</uri-param>
+                  <http method="GET"/>
+                  <http method="HEAD"/>
+                  <http method="POST"/>
+              </request>,
             $def:ROXY-ROUTES/rest:request
+           )
           else
               <request uri="^/favicon.ico$" endpoint="/public/favicon.ico"/>,
               <request uri="^/user/(login|logout|register)" endpoint="/roxy/query-router.xqy">
@@ -97,23 +114,42 @@ declare variable $c:ROXY-OPTIONS :=
  : default application.
  : ***********************************************
  :)
-declare variable $c:DEFAULT-PAGE-LENGTH as xs:int := 5;
+declare variable $c:DEFAULT-PAGE-LENGTH as xs:int := 10;
 
 declare variable $c:SEARCH-OPTIONS :=
-  <options xmlns="http://marklogic.com/appservices/search">
-    <search-option>unfiltered</search-option>
-    <term>
-      <term-option>case-insensitive</term-option>
-    </term>
-    <constraint name="facet1">
-      <collection>
-        <facet-option>limit=10</facet-option>
-      </collection>
-    </constraint>
-
-    <return-results>true</return-results>
-    <return-query>true</return-query>
-  </options>;
+    <options xmlns="http://marklogic.com/appservices/search">
+        <search-option>unfiltered</search-option>
+        <term>
+          <term-option>case-insensitive</term-option>
+        </term>
+        <constraint name="col">
+          <collection/>
+        </constraint>
+        <constraint name="type">
+           	<range type="xs:string" facet="true">
+           	<facet-option>limit=5</facet-option>
+           	<element ns="" name="type"/>
+           	</range>
+        </constraint>
+        <constraint name="user">
+            <container>
+          	   <element name="administrators" />
+        	</container>
+            <element-query name="user" />
+        </constraint>
+        <constraint name="status">
+            <element-query name="status" />
+        </constraint>
+        <search:operator name="sort">
+          	<search:state name="relevance">
+               <search:sort-order>
+                   <search:score/>
+               </search:sort-order>
+           </search:state>
+        </search:operator>
+        <return-results>true</return-results>
+        <return-query>true</return-query>
+    </options>;
 
 (:
  : Labels are used by appbuilder faceting code to provide internationalization

@@ -25,9 +25,17 @@ import module namespace impl = "http://marklogic.com/appservices/search-impl" at
 
 declare option xdmp:mapping "false";
 
-declare function m:search($query as xs:string, $page as xs:int)
+
+declare function m:search($query as xs:string, $pg as xs:int, $ps)
 {
-  let $start := ($page - 1) * $c:DEFAULT-PAGE-LENGTH + 1
+  let $start := ($pg - 1) * $ps + 1
   return
-    search:search($query, $c:SEARCH-OPTIONS, $start, $c:DEFAULT-PAGE-LENGTH)
+    search:search($query, $c:SEARCH-OPTIONS, $start, $ps)
+};
+
+declare function m:search($query as xs:string, $options as element(search:options), $pg as xs:int, $ps)
+{
+  let $start := ($pg - 1) * $ps + 1
+  return
+    search:search($query, $options, $start, $ps)
 };

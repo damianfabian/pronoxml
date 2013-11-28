@@ -24,7 +24,7 @@ declare variable $title as xs:string? := (vh:get('title'), "Pronoxml")[1];
 declare variable $appName as xs:string? := (vh:get('appName'), "Pronoxml")[1];
 declare variable $javascripts as item()* := (vh:get('javascripts'), ())[1];
 
-declare variable $username as xs:string? := vh:get("username");
+declare variable $username as xs:string? := (vh:get("username"),xdmp:get-session-field("username"))[1] ;
 declare variable $message  as xs:string? := vh:get("message");
 declare variable $loggedin as xs:string? := vh:get("loggedin");
 
@@ -71,7 +71,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
             <nav class="pull-right nav-collapse collapse">
               <ul id="menu-main" class="nav">
                {
-                uv:build-user($username, $message, "/user/login", "/user/register", "/user/logout.html")
+                uv:build-user($username, $message, "/user/login", "/user/register", "/user/logout")
               }
               </ul>
             </nav>
