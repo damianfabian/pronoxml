@@ -11,6 +11,8 @@ declare option xdmp:mapping "false";
 declare variable $message           := vh:get("message");
 declare variable $username          := vh:get("username");
 declare variable $searchText          := vh:get("search");
+declare variable $sortField          := vh:get("sortField");
+declare variable $sortOrder          := vh:get("sortOrder");
 declare variable $searchType          := vh:get("type");
 declare variable $q as xs:string?   := vh:get("q");
 declare variable $page as xs:int    := vh:get("page");
@@ -29,14 +31,14 @@ declare variable $myTournaments as element(search:response)?     := vh:get("myTo
                           <!-- Facets -->
                           <div class="span4">
                           {
-                            sl:filters($response, $page, $searchText, $searchType)
+                            sl:filters($response, $page, $searchText, $searchType, $sortField, $sortOrder)
                           }
                           </div>
                           <!-- Fin Facets -->
                           <!-- Resultados -->
                           <div class="span7 offset1">
                           {
-                            sl:template($response, $q, $page)
+                            sl:template($response, $q, $page, $sortField, $sortOrder)
                           }
                           </div>
                           <!-- Fin Resultados -->

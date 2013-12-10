@@ -378,6 +378,9 @@
         <privilege>
           <privilege-name>any-uri</privilege-name>
         </privilege>
+        <privilege>
+          <privilege-name>xdmp-email</privilege-name>
+        </privilege>
       </privileges>
     </role>
   </roles>

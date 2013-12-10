@@ -780,7 +780,7 @@ footer p {
 /* ---------------------------------------------------------------------------------------------------------- 
 08 Buttons ------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------- */    
-.btn {
+.btnApp {
 	font-family: 'Patua One', cursive;
 	color: #fff;
 	width: 185px;
@@ -1097,13 +1097,16 @@ border: 1px solid yellow;
 
 /* Results -----------------------*/
 section#tournaments {
-	height:  647px;
-	background: url("../img/yellow_testimonial.png") repeat-x 0 0;
+	height:  auto;
+	background: url("../img/yellow_testimonial.png") repeat 0 0;
 	padding: 0;
 	z-index: 500;
 	box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+	padding-bottom:30px;
+	margin-bottom:10px;
+	
 }
 #tournaments h1{
 	text-align: center;
@@ -1111,6 +1114,9 @@ section#tournaments {
 	margin-bottom: 1.3em; /* 72px */
 	font-size: 2.25em; /* 36px */
 	color:#444;
+}
+#tournaments .linkOrder{
+    color:#fff;
 }
 .result{
 border-bottom:1px solid #666;
@@ -1188,6 +1194,11 @@ padding:5px;
 margin-left:10px;
 margin-top:5px;
 }
+#progress { position:relative; width:auto; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+#bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
+#percent { position:absolute; display:inline-block; top:3px; left:48%; }
+.add-icon{ width:32px; margin-left:5px; margin-top:-5px; }
+.versus{ margin-left:auto; margin-right:auto; margin-bottom:10px; display:block; }
 /* End Results */
 
 .login{
@@ -1283,7 +1294,7 @@ text-decoration:none;
     margin:5px;
 }
 
-.button 
+.btnSubmit 
 {
     float:left;
     min-width:100px;
@@ -1301,4 +1312,8 @@ text-decoration:none;
 }
 .clickable{
     cursor:pointer;
+}
+
+.displayNone{
+    display:none;
 }

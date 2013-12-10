@@ -36,11 +36,14 @@ declare variable $req:request as map:map :=
     let $current := map:get($map, $name)
     let $vals :=
       for $val in xdmp:get-request-field($name)
-    return
+   return
         if ($val instance of xs:anySimpleType) then
           xdmp:url-decode($val)
         else
-          $val
+          let $file :=    if($val instance of binary()) then
+                            map:put($map, fn:concat($name,"-filename"), xdmp:get-request-field-filename($name))
+                        else ()
+          return $val
     return
       if (fn:exists($current)) then
         map:put($map, $name, ($current, $vals))

@@ -1,3 +1,5 @@
+var app = app || {};
+app.tools = {};
 
 jQuery(document).ready(function($) {
     //$('#nav-main').scrollspy()
@@ -18,3 +20,7 @@ jQuery(document).ready(function($) {
     
     $("#login").validate();
 });
+
+app.tools.getParam = function($param){
+    return decodeURI( (RegExp($param + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]  );
+};

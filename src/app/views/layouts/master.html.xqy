@@ -52,7 +52,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
     <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <link href="/css/bootstrap-responsive.css" rel="stylesheet"/>
-    
+    <link href="/css/jquery-ui.css" rel="stylesheet"/>
     </head>
     <body>
     <!--******************** NAVBAR ********************-->
@@ -61,7 +61,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
         <div class="navbar-inner">
           <div class="container">
             <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+            <a class="btnApp btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
                 <span class="icon-bar">&nbsp;</span> 
                 <span class="icon-bar">&nbsp;</span> 
                 <span class="icon-bar">&nbsp;</span> 
@@ -106,6 +106,7 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
    
     <!-- JQuery -->
     <script type="text/javascript" src="/js/jquery.js">&nbsp;</script>
+    <script type="text/javascript" src="/js/jquery-ui.js">&nbsp;</script>
     <script type="text/javascript" src="/js/jquery.validate.js">&nbsp;</script>
     <!-- Load ScrollTo -->
     <script type="text/javascript" src="/js/jquery.scrollTo-1.4.2-min.js">&nbsp;</script>

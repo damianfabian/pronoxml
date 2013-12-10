@@ -14,7 +14,7 @@ declare option xdmp:update "false";
 declare variable $auth:SESSION-PREFIX := "session";
 
 (: declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("P1D"); :)
-declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H05M");
+declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H35M");
 
 declare variable $auth:DEFAULT-USER as xs:string := "tester";
 

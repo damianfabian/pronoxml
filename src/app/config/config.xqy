@@ -30,6 +30,8 @@ declare variable $c:ADMIN   := "admin@pronoxml.com";
 
 declare variable $c:DOCUMENTS_PATH   := "/pronoxml";
 
+declare variable $c:BINARY_PATH   := "/binary";
+
 declare variable $c:TOURNAMENT_COLLECTION   := "col:tournament";
 
 (: Allows unauthenticated requests if set to true :)
@@ -78,7 +80,15 @@ declare variable $c:ROXY-OPTIONS :=
               <request uri="^/user/detail/(.*)" endpoint="/roxy/query-router.xqy">
                   <uri-param name="controller" default="{$default-controller}">user</uri-param>
                   <uri-param name="func" default="{$default-function}">detail</uri-param>
-                  <uri-param name="format">$1</uri-param>
+                  <uri-param name="id">$1</uri-param>
+                  <http method="GET"/>
+                  <http method="HEAD"/>
+                  <http method="POST"/>
+              </request>,
+              <request uri="^/tournament/detail/(.*)" endpoint="/roxy/update-router.xqy">
+                  <uri-param name="controller" default="{$default-controller}">tournament</uri-param>
+                  <uri-param name="func" default="{$default-function}">detail</uri-param>
+                  <uri-param name="id">$1</uri-param>
                   <http method="GET"/>
                   <http method="HEAD"/>
                   <http method="POST"/>
@@ -132,20 +142,44 @@ declare variable $c:SEARCH-OPTIONS :=
            	</range>
         </constraint>
         <constraint name="user">
-            <container>
-          	   <element name="administrators" />
-        	</container>
-            <element-query name="user" />
+            <element-query name="administrator" />
         </constraint>
         <constraint name="status">
             <element-query name="status" />
         </constraint>
-        <search:operator name="sort">
-          	<search:state name="relevance">
-               <search:sort-order>
-                   <search:score/>
-               </search:sort-order>
-           </search:state>
+        <search:operator name="ascending">
+            <search:state name="name">
+                <search:sort-order>
+                    <element ns="" name="name"/>
+                </search:sort-order>
+            </search:state>
+            <search:state name="type">
+                <search:sort-order>
+                    <element ns="" name="type"/>
+                </search:sort-order>
+            </search:state>
+            <search:state name="date">
+                <search:sort-order>
+                    <element ns="" name="date"/>
+                </search:sort-order>
+            </search:state>
+        </search:operator>
+        <search:operator name="descending">
+            <search:state name="name">
+                <search:sort-order direction="descending">
+                    <element ns="" name="name"/>
+                </search:sort-order>
+            </search:state>
+            <search:state name="type">
+                <search:sort-order direction="descending">
+                    <element ns="" name="type"/>
+                </search:sort-order>
+            </search:state>
+            <search:state name="date">
+                <search:sort-order direction="descending">
+                    <element ns="" name="date"/>
+                </search:sort-order>
+            </search:state>
         </search:operator>
         <return-results>true</return-results>
         <return-query>true</return-query>
@@ -160,3 +194,11 @@ declare variable $c:LABELS :=
       <value xml:lang="en">Sample Facet</value>
     </label>
   </labels>;
+  
+declare variable $c:DISCIPLINES := 
+    <disciplines>
+        <discipline>Basketball</discipline>
+        <discipline>Soccer</discipline>
+        <discipline>Tennis</discipline>
+        <discipline>Video Games</discipline>
+    </disciplines>;

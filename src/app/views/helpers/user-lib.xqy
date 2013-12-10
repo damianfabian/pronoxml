@@ -61,7 +61,7 @@ declare function uv:build-login($login-link, $register-link, $message)
       <input type="text" class="pull-left text required"  name="username" placeholder="username" />
       <input type="password" class="pull-left text required" name="password" placeholder="*******" />
       <input type="submit" value="Login"/>
-      <input type="button" class="button" value="Cancel" id="login-cancel" />
+      <input type="button" class="btnSubmit" value="Cancel" id="login-cancel" />
     </form>
   </div>
 };

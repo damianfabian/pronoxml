@@ -334,3 +334,83 @@ declare function tools:parse-url-params($url as xs:string) as map:map {
     return $param-map
 
 };
+
+(:
+ : Parses URL parameters from a URL string. 
+ :
+ : Doesn't do much error checking. Assumes that '?' delimits 
+ : the host and port from the URL params, '&' delimits
+ : the params from one another, and '=' delimits the name
+ : from the value.
+:)
+declare function tools:send-email($subject, $to, $from, $message) as item()
+{
+    if($subject and $to/user and $from/email and $message) then
+        (
+            xdmp:email(
+            <em:Message
+             xmlns:em="URN:ietf:params:email-xml:"
+             xmlns:rf="URN:ietf:params:rfc822:">
+              <rf:subject>{$subject}</rf:subject>
+              <rf:from>
+                <em:Address>
+                  <em:name>{$from/name/text()}</em:name>
+                  <em:adrs>{$from/email/text()}</em:adrs>
+                </em:Address>
+              </rf:from>
+              {
+                for $user in $to/user
+                return 
+                    <rf:to>
+                        <em:Address>
+                          <em:name>{$user/name/text()}</em:name>
+                          <em:adrs>{$user/email/text()}</em:adrs>
+                        </em:Address>
+                    </rf:to>
+              }
+              <em:content>
+              { $message }
+              </em:content>
+            </em:Message>),
+            "Your email was sent it successfuly"
+        )
+    else
+        "ERROR: You need to fill all the fields to send the email"
+};
+
+declare function tools:escape-for-regex ( $arg as xs:string? )  as xs:string 
+ {
+   replace($arg, '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')
+ };
+ 
+declare function tools:substring-before-last( $arg as xs:string? , $delim as xs:string )  as xs:string 
+{
+   if (fn:matches($arg, tools:escape-for-regex($delim))) then 
+        fn:replace($arg, fn:concat('^(.*)', tools:escape-for-regex($delim),'.*'), '$1')
+   else ''
+};
+
+declare function tools:substring-after-last ( $arg as xs:string? , $delim as xs:string )  as xs:string 
+{
+   replace ($arg,concat('^.*',tools:escape-for-regex($delim)),'')
+};
+ 
+declare function tools:format-string($string, $params) as xs:string
+{
+    let $result := $string
+    let $execute :=
+        for $x at $y in $params 
+        return xdmp:set($result, fn:replace($result, fn:concat("(@",$y,")"), $x))
+    
+    return $result
+};
+
+declare function tools:get-extension($file) as xs:string
+{
+   tools:substring-after-last($file,".")
+};
+
+declare function tools:parse-date($string) as xs:date
+{
+    xs:date($string)
+};
