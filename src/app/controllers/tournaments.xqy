@@ -18,6 +18,7 @@ import module namespace con   = "http://marklogic.com/roxy/models/contender" at 
 import module namespace cfg    = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 declare namespace search = "http://marklogic.com/appservices/search";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
+declare namespace js = "http://marklogic.com/xdmp/json/basic";
 
 declare option xdmp:mapping "false";
 
@@ -213,4 +214,57 @@ declare function c:add-match() as item()*
     
 };
 
+declare function c:forecast() as item()*
+{
+    let $username           := req:get("username", "", "type=xs:string")
+    let $id                 := req:get("id", "", "type=xs:string")
+    let $tournament         := tm:get-by-id($id)/tournament
+    let $message            := ""
+    
+   let $scripts             := <scripts>
+                                   <script type="text/javascript" src="/js/forecast.js">&nbsp;</script>
+                                   <script src="/js/bootbox.min.js">&nbsp;</script>
+                               </scripts>
+    return
+    (
+        ch:add-value("message", $message),
+        ch:add-value("username",$username),
+        ch:add-value("tournament", $tournament),
+        ch:add-value("javascripts",$scripts),
+        ch:add-value("id",$id),
+        ch:use-view((), "xml"),
+        ch:use-layout("master")
+    )
+};
 
+declare function c:save-forecast() as item()*
+{
+    let $id            := req:get("id")
+    let $data          := json:transform-from-json(req:get("data"))
+    let $doc           := tm:get-by-id($id)/tournament
+    let $username      := (xdmp:get-session-field("username"),req:get("username", "", "type=xs:string"))[1]
+    
+    let $forecast      :=   for $x in $data/js:json
+                            let $id-forecast   := tools:uniqueID()
+                            
+                            let $item          :=   <forecast id="{$id-forecast}" match-id="{$x/js:idmatch/text()}">
+                                                        <user>{$username}</user>
+                                                        <status>Active</status> <!--Done, Canceled -->
+                                                        <date>{fn:current-date()}</date>
+                                                        <play>
+                                                        {
+                                                            for $y in $x/js:contenders/js:json
+                                                            return
+                                                                <contender id="{$y/js:id/text()}" value="{$y/js:value/text()}"/>
+                                                        }   
+                                                        </play>
+                                                    </forecast>
+                            
+                            return if($doc/forecasts/forecast[@match-id eq $x/js:idmatch and user eq $username]) then
+                                        xdmp:node-replace($doc/forecasts/forecast[@match-id eq $x/js:idmatch and user eq $username], $item)
+                                   else
+                                        xdmp:node-insert-child($doc/forecasts, $item)
+                            
+   
+    return "You save the forecast successfuly"    
+};

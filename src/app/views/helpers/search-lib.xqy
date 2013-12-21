@@ -265,7 +265,7 @@ declare function sl:details($tournament as element(tournament)) as item()*
                  </p>
             </form>
         </section>
-        <h2><a href="/tournament/detail" class="more">View forecasts</a></h2>
+        <h2><a href="/tournaments/forecast?id={$tournament/@id}" class="more">View forecasts</a></h2>
     </div>
 };
 

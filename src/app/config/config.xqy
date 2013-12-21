@@ -18,6 +18,7 @@ xquery version "1.0-ml";
 module namespace c = "http://marklogic.com/roxy/config";
 
 import module namespace def = "http://marklogic.com/roxy/defaults" at "/roxy/config/defaults.xqy";
+import module namespace auth   = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
 
 declare namespace rest = "http://marklogic.com/appservices/rest";
 declare namespace search = "http://marklogic.com/appservices/search";
@@ -73,9 +74,24 @@ declare variable $c:ROXY-OPTIONS :=
     <routes xmlns="http://marklogic.com/appservices/rest">
     <request uri="^/(css|js|img|font)/(.*)" endpoint="/public/$1/$2"/>
     {
-        let $user := xdmp:get-session-field("logged-in-user")(:xdmp:get-current-user():)
+        let $user := xdmp:get-session-field("username")(:xdmp:get-current-user():)
+        let $log := xdmp:log(fn:concat("User:", $user))
+        let $valid := if($user ne '') then fn:true()
+                      else(
+                              let $token := xdmp:get-request-header("X-Auth-Token")
+                              let $log := xdmp:log(fn:concat("Token:",$token))
+                              return if($token) then (
+                                let $valid-session := auth:findSessionByToken($token)
+                                let $log := xdmp:log(fn:concat("Valid:",$valid-session))
+                                return if($valid-session) then ( 
+                                    fn:true(),
+                                    auth:cacheSession($valid-session)
+                                ) else fn:false()
+                              )
+                              else fn:false()
+                          )
         return
-          if ($user ne '') then
+          if ($valid) then
           (
               <request uri="^/user/detail/(.*)" endpoint="/roxy/query-router.xqy">
                   <uri-param name="controller" default="{$default-controller}">user</uri-param>
@@ -85,7 +101,7 @@ declare variable $c:ROXY-OPTIONS :=
                   <http method="HEAD"/>
                   <http method="POST"/>
               </request>,
-              <request uri="^/tournament/detail/(.*)" endpoint="/roxy/update-router.xqy">
+              <request uri="^/tournaments/detail/(.*)" endpoint="/roxy/update-router.xqy">
                   <uri-param name="controller" default="{$default-controller}">tournament</uri-param>
                   <uri-param name="func" default="{$default-function}">detail</uri-param>
                   <uri-param name="id">$1</uri-param>
@@ -93,6 +109,7 @@ declare variable $c:ROXY-OPTIONS :=
                   <http method="HEAD"/>
                   <http method="POST"/>
               </request>,
+              <request uri="^/binary/(.*)" endpoint="/binary/$1"/>,
             $def:ROXY-ROUTES/rest:request
            )
           else

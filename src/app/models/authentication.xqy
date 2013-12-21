@@ -14,7 +14,7 @@ declare option xdmp:update "false";
 declare variable $auth:SESSION-PREFIX := "session";
 
 (: declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("P1D"); :)
-declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H35M");
+declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT1H35M");
 
 declare variable $auth:DEFAULT-USER as xs:string := "tester";
 
@@ -118,7 +118,7 @@ declare function auth:sessionDirectory($username as xs:string) {
 
 declare function auth:startSession($username)
 {
-  (: let $__ := auth:clearSession($username) :) (: delete any exisitng token docs :)
+  let $__ := auth:clearSession($username)  (: delete any exisitng token docs :)
   let $currDate   := auth:getCurrentDateTimeUTC()
   let $expiration := xs:string($currDate + $auth:SESSION-TIMEOUT)
   let $token      := fn:concat(xdmp:md5(fn:concat(fn:normalize-space($username),xs:string($currDate))), "|", auth:getTokenDateTime($expiration))
@@ -187,6 +187,8 @@ declare function auth:deleteToken($uri)
 
 declare function auth:cacheSession($session as element(session))
 {
+    xdmp:set-session-field("logged-in-user", $session/name/text()),
+    xdmp:set-session-field("username", $session/username/text()),
     map:put($cfg:SESSION, "sessionUser", xs:string($session/username) ),
     map:put($cfg:SESSION, "sessionCreated", xs:string($session/created) ),
     map:put($cfg:SESSION, "sessionExpiration", xs:string($session/expiration) )    
